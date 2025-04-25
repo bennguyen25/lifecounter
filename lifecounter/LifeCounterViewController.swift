@@ -8,39 +8,62 @@
 import UIKit
 
 class LifeCounterViewController: UIViewController {
-    @IBOutlet weak var lifeLabel1: UILabel!
-    @IBOutlet weak var lifeLabel2: UILabel!
-    @IBOutlet weak var losesLabel: UILabel!
+  @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var addPlayerButton: UIButton!
 
+  var players = [Player]()
+  var gameStarted = false
+  var history = [String]()
 
-    private var life1 = 20
-    private var life2 = 20
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    tableView.dataSource = self
+    tableView.rowHeight = UITableView.automaticDimension
+    tableView.estimatedRowHeight = 80
 
-    @IBAction func p1Minus5(_ sender: UIButton) { update(&life1, by: -5, label: lifeLabel1) }
-    @IBAction func p1Minus1(_ sender: UIButton) { update(&life1, by: -1, label: lifeLabel1) }
-    @IBAction func p1Plus1 (_ sender: UIButton) { update(&life1, by:  1, label: lifeLabel1) }
-    @IBAction func p1Plus5 (_ sender: UIButton) { update(&life1, by:  5, label: lifeLabel1) }
-
-    @IBAction func p2Minus5(_ sender: UIButton) { update(&life2, by: -5, label: lifeLabel2) }
-    @IBAction func p2Minus1(_ sender: UIButton) { update(&life2, by: -1, label: lifeLabel2) }
-    @IBAction func p2Plus1 (_ sender: UIButton) { update(&life2, by:  1, label: lifeLabel2) }
-    @IBAction func p2Plus5 (_ sender: UIButton) { update(&life2, by:  5, label: lifeLabel2) }
-
-    private func update(_ life: inout Int, by delta: Int, label: UILabel) {
-      life += delta
-      label.text = "\(life)"
-      
-      if life <= 0 {
-        let player = (label === lifeLabel1) ? "Player 1" : "Player 2"
-        losesLabel.text = "\(player) LOSES!"
-        losesLabel.isHidden = false
-      }
+    for i in 1...4 {
+      players.append(Player(id: i))
     }
+  }
 
-    private func showLoseAlert(for player: String) {
-    let alert = UIAlertController(title: "\(player) LOSES!", message: nil, preferredStyle: .alert)
-    alert.addAction(.init(title: "OK", style: .default))
-    present(alert, animated: true)
-    }
+  @IBAction func addPlayerTapped(_ sender: UIButton) {
+    guard !gameStarted, players.count < 8 else { return }
+    let newID = players.count + 1
+    players.append(Player(id: newID))
+    tableView.insertRows(
+      at: [IndexPath(row: newID - 1, section: 0)],
+      with: .automatic
+    )
+  }
 }
 
+extension LifeCounterViewController: UITableViewDataSource {
+  func tableView(_ tv: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return players.count
+  }
+
+  func tableView(
+    _ tv: UITableView,
+    cellForRowAt indexPath: IndexPath
+  ) -> UITableViewCell {
+    let cell = tv.dequeueReusableCell(
+      withIdentifier: "PlayerCell",
+      for: indexPath
+    ) as! PlayerCell
+    cell.player = players[indexPath.row]
+    cell.delegate = self
+    return cell
+  }
+}
+
+extension LifeCounterViewController: PlayerCellDelegate {
+  func playerDidUpdate(_ cell: PlayerCell) {
+    gameStarted = true
+    addPlayerButton.isEnabled = false
+
+    if let row = tableView.indexPath(for: cell)?.row {
+      let p = players[row]
+      history.append("Player \(p.id) is now at \(p.life) life.")
+    }
+  }
+}
