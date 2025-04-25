@@ -38,7 +38,6 @@ class LifeCounterViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
       if segue.identifier == "ShowHistory",
          let histVC = segue.destination as? HistoryViewController {
-          print("🔸 Passing history:", history)
         histVC.history = self.history
       }
     }
