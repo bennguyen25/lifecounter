@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="SNx-LO-e0G">
-                                <rect key="frame" x="0.0" y="118" width="393" height="666"/>
+                                <rect key="frame" x="0.0" y="144.33333333333331" width="393" height="639.66666666666674"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PlayerCell" id="2ua-Yq-LI8" customClass="PlayerCell" customModule="lifecounter" customModuleProvider="target">
@@ -121,24 +121,38 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="etl-VS-VuJ">
-                                <rect key="frame" x="143.66666666666666" y="102" width="105.66666666666666" height="34.333333333333343"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Add Player"/>
-                                <connections>
-                                    <action selector="addPlayerTapped:" destination="tHo-DM-37P" eventType="touchUpInside" id="Yms-qo-eLK"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="dka-yh-C6k">
+                                <rect key="frame" x="16" y="102" width="361" height="34.333333333333343"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="etl-VS-VuJ">
+                                        <rect key="frame" x="0.0" y="0.0" width="172.66666666666666" height="34.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Add Player"/>
+                                        <connections>
+                                            <action selector="addPlayerTapped:" destination="tHo-DM-37P" eventType="touchUpInside" id="Yms-qo-eLK"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3mA-dy-5Y9">
+                                        <rect key="frame" x="188.66666666666663" y="0.0" width="172.33333333333337" height="34.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="History"/>
+                                        <connections>
+                                            <segue destination="qaZ-UW-0bI" kind="presentation" identifier="ShowHistory" id="a6w-u5-Sdf"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="nZC-ad-8yU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="SNx-LO-e0G" firstAttribute="leading" secondItem="nZC-ad-8yU" secondAttribute="leading" id="8Eo-Ae-EbQ"/>
+                            <constraint firstItem="nZC-ad-8yU" firstAttribute="top" secondItem="dka-yh-C6k" secondAttribute="top" constant="16" id="J3d-U6-2ri"/>
+                            <constraint firstItem="nZC-ad-8yU" firstAttribute="trailing" secondItem="dka-yh-C6k" secondAttribute="trailing" constant="16" id="LKr-C2-ngw"/>
+                            <constraint firstItem="dka-yh-C6k" firstAttribute="leading" secondItem="nZC-ad-8yU" secondAttribute="leading" constant="16" id="MqN-WS-kTM"/>
                             <constraint firstItem="nZC-ad-8yU" firstAttribute="trailing" secondItem="SNx-LO-e0G" secondAttribute="trailing" id="Qrp-Se-rj5"/>
-                            <constraint firstItem="SNx-LO-e0G" firstAttribute="top" secondItem="nZC-ad-8yU" secondAttribute="top" id="Vfz-yA-h2T"/>
-                            <constraint firstItem="nZC-ad-8yU" firstAttribute="top" secondItem="etl-VS-VuJ" secondAttribute="top" constant="16" id="g2l-mZ-nfM"/>
-                            <constraint firstItem="etl-VS-VuJ" firstAttribute="centerX" secondItem="czM-qi-beu" secondAttribute="centerX" id="llE-0C-yyb"/>
                             <constraint firstItem="nZC-ad-8yU" firstAttribute="bottom" secondItem="SNx-LO-e0G" secondAttribute="bottom" id="v2O-sz-6RX"/>
+                            <constraint firstItem="SNx-LO-e0G" firstAttribute="top" secondItem="dka-yh-C6k" secondAttribute="bottom" constant="8" id="wQY-IA-Gyd"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="NY6-rP-0k8"/>
@@ -150,6 +164,50 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q2n-ke-Eok" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="770.2290076335878" y="-29.577464788732396"/>
+        </scene>
+        <!--History View Controller-->
+        <scene sceneID="GEo-7I-uLU">
+            <objects>
+                <viewController id="qaZ-UW-0bI" customClass="HistoryViewController" customModule="lifecounter" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IrX-oH-1cy">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="783"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="xci-Qf-1WF">
+                                <rect key="frame" x="0.0" y="59" width="393" height="724"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HistoryCell" id="jwr-Oh-jJz">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jwr-Oh-jJz" id="fnR-Wr-ZwW">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="qaZ-UW-0bI" id="HV6-hx-KA5"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="DtA-3Y-PW1"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="xci-Qf-1WF" firstAttribute="leading" secondItem="DtA-3Y-PW1" secondAttribute="leading" id="EiT-ge-kdM"/>
+                            <constraint firstItem="xci-Qf-1WF" firstAttribute="top" secondItem="DtA-3Y-PW1" secondAttribute="top" id="XIv-gl-Z0c"/>
+                            <constraint firstItem="DtA-3Y-PW1" firstAttribute="bottom" secondItem="xci-Qf-1WF" secondAttribute="bottom" id="gXn-Q9-AI0"/>
+                            <constraint firstItem="DtA-3Y-PW1" firstAttribute="trailing" secondItem="xci-Qf-1WF" secondAttribute="trailing" id="uzb-au-SVa"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="xci-Qf-1WF" id="lp2-PJ-zGX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BIM-wm-9oj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1552" y="-6"/>
         </scene>
     </scenes>
     <resources>

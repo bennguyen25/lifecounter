@@ -35,6 +35,13 @@ class LifeCounterViewController: UIViewController {
       with: .automatic
     )
   }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+      if segue.identifier == "ShowHistory",
+         let histVC = segue.destination as? HistoryViewController {
+          print("🔸 Passing history:", history)
+        histVC.history = self.history
+      }
+    }
 }
 
 extension LifeCounterViewController: UITableViewDataSource {
@@ -57,13 +64,16 @@ extension LifeCounterViewController: UITableViewDataSource {
 }
 
 extension LifeCounterViewController: PlayerCellDelegate {
-  func playerDidUpdate(_ cell: PlayerCell) {
+  func playerDidUpdate(_ cell: PlayerCell, delta: Int) {
     gameStarted = true
     addPlayerButton.isEnabled = false
 
-    if let row = tableView.indexPath(for: cell)?.row {
-      let p = players[row]
-      history.append("Player \(p.id) is now at \(p.life) life.")
-    }
+    guard let indexPath = tableView.indexPath(for: cell) else { return }
+    let id = players[indexPath.row].id
+    players[indexPath.row].life = cell.player.life
+
+    let verb = delta > 0 ? "gained" : "lost"
+    let amount = abs(delta)
+    history.append("Player \(id) \(verb) \(amount) life.")
   }
 }

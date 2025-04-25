@@ -8,7 +8,7 @@
 import UIKit
 
 protocol PlayerCellDelegate: AnyObject {
-  func playerDidUpdate(_ cell: PlayerCell)
+    func playerDidUpdate(_ cell: PlayerCell, delta: Int)
 }
 
 class PlayerCell: UITableViewCell {
@@ -25,26 +25,25 @@ class PlayerCell: UITableViewCell {
   }
 
     @IBAction func changeTapped(_ sender: UIButton) {
-      let delta = Int(deltaField.text ?? "") ?? 5
-      
-      player.life += sender.tag * delta
-      
-      lifeLabel.text = "\(player.life)"
-      
-      deltaField.text = ""
-      
-      delegate?.playerDidUpdate(self)
+        let rawDelta = Int(deltaField.text ?? "") ?? 5
+        let change = sender.tag * rawDelta
+
+        player.life += change
+        lifeLabel.text = "\(player.life)"
+        deltaField.text = ""
+
+        delegate?.playerDidUpdate(self, delta: change)
     }
     
     @IBAction func decrementOneTapped(_ sender: UIButton) {
       player.life -= 1
       lifeLabel.text = "\(player.life)"
-      delegate?.playerDidUpdate(self)
+      delegate?.playerDidUpdate(self, delta: -1)
     }
 
     @IBAction func incrementOneTapped(_ sender: UIButton) {
       player.life += 1
       lifeLabel.text = "\(player.life)"
-      delegate?.playerDidUpdate(self)
+      delegate?.playerDidUpdate(self, delta: 1)
     }
 }
